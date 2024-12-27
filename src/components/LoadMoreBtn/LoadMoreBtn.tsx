@@ -1,5 +1,10 @@
 import css from './LoadMoreBtn.module.css';
-export default function LoadMoreBtn({ onClick }) {
+
+interface LoadMoreBtnProps {
+  onClick: () => void;
+}
+
+const LoadMoreBtn = ({ onClick }: LoadMoreBtnProps) => {
   return (
     <div>
       <button className={css.loadMoreBtn} onClick={onClick}>
@@ -7,4 +12,6 @@ export default function LoadMoreBtn({ onClick }) {
       </button>
     </div>
   );
-}
+};
+
+export default LoadMoreBtn;

@@ -9,16 +9,17 @@ import Loader from './Loader/Loader';
 import ErrorMessage from './ErrorMessage/ErrorMessage';
 import LoadMoreBtn from './LoadMoreBtn/LoadMoreBtn';
 import ImageModal from './ImageModal/ImageModal';
+import { Image } from '../types';
 
 export default function App() {
-  const [images, setImages] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [page, setPage] = useState(1);
-  const [showBtn, setShowBtn] = useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [chosenImage, setChosenImage] = useState('');
+  const [images, setImages] = useState<Image[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [page, setPage] = useState<number>(1);
+  const [showBtn, setShowBtn] = useState<boolean>(false);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [chosenImage, setChosenImage] = useState<string>('');
 
   useEffect(() => {
     if (searchQuery.trim() === '') {
@@ -30,7 +31,7 @@ export default function App() {
         setIsError(false);
         const data = await getImages(searchQuery, page);
         setImages(prevState => [...prevState, ...data.results]);
-        setShowBtn(data.total_pages && data.total_pages !== page);
+        setShowBtn(data.total_pages > page);
       } catch {
         setIsError(true);
       } finally {
@@ -41,7 +42,7 @@ export default function App() {
     fetchImages();
   }, [page, searchQuery]);
 
-  const handleSearch = async searchWord => {
+  const handleSearch = async (searchWord: string) => {
     setSearchQuery(searchWord);
     setPage(1);
     setImages([]);
@@ -51,7 +52,7 @@ export default function App() {
     setPage(page + 1);
   };
 
-  function openModal(small) {
+  function openModal(small: string) {
     setChosenImage(small);
     setModalIsOpen(true);
   }
